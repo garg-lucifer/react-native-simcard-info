@@ -1,6 +1,6 @@
 {
   "name": "react-native-simcard-info",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React native library to get sim card info in android",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -47,8 +47,12 @@
   },
   "keywords": [
     "react-native",
-    "ios",
-    "android"
+    "android",
+    "simcard",
+    "simcard-info",
+    "simcard-info-react-native",
+    "react-native-simcard-info",
+    "react-native-simcard-info-android"
   ],
   "repository": {
     "type": "git",
