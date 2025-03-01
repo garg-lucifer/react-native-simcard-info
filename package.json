@@ -1,8 +1,8 @@
 {
   "name": "react-native-simcard-info",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React native library to get sim card info in android",
-  "source": "./src/index.tsx",
+  "source": "./src/index.ts",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
   "exports": {
@@ -87,7 +87,7 @@
     "react-native-builder-bob": "^0.35.2",
     "release-it": "^17.10.0",
     "turbo": "^1.10.7",
-    "typescript": "^5.2.2"
+    "typescript": "^5.8.2"
   },
   "resolutions": {
     "@types/react": "^18.2.44"
@@ -181,6 +181,7 @@
         "typescript",
         {
           "project": "tsconfig.build.json",
+          "tsc": "./node_modules/.bin/tsc",
           "esm": true
         }
       ]

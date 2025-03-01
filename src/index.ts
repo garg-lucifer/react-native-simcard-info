@@ -1,5 +1,5 @@
-export { useAirplaneMode } from '../src/hooks/useAirplaneMode';
-export { useSIMStateChange } from '../src/hooks/useSIMStateChange';
+export { useAirplaneMode } from './hooks/useAirplaneMode';
+export { useSIMStateChange } from './hooks/useSIMStateChange';
 export {
   //getters
   getSIMIds,
@@ -34,4 +34,4 @@ export {
   //event listeners
   onAirplaneModeChange,
   onSIMCardStateChange,
-} from '../src/SIMFeatureImpl';
+} from './SIMFeatureImpl';
