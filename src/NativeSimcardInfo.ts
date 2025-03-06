@@ -16,7 +16,6 @@ export interface Spec extends TurboModule {
   getDefaultSmsSubscriptionId(): number;
   getDefaultSubscriptionId(): number;
   getSlotIndex(subscriberId: number): number;
-  getSimInfo(subscriberId: number): Object; // delete it
   getNoOfSIMSlotAvailable(): number;
   getSignalStrength(subscriberId: number): number;
   getPhoneNumber(subscriberId: number): string;

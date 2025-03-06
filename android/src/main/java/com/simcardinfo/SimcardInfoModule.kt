@@ -327,32 +327,6 @@ class SimcardInfoModule(reactContext: ReactApplicationContext) :
   }
 
   /**
-   * Retrieves the subscription info for the SIM associated with given subscription id.
-   *
-   * For more details refer to the official documentation:
-   * https://developer.android.com/reference/android/telephony/SubscriptionInfo#toString()
-   *
-   * @return A WritableMap containing the subscription info in key-value pair.
-   * @throws Error If the required permissions are not granted or another error occurs.
-   */
-  @SuppressLint("MissingPermission")
-  override fun getSimInfo(subscriberId: Double): WritableMap {
-    try {
-      if (!hasReadPhoneStatePermission(reactApplicationContext) && !hasCarrierPrivilege(reactApplicationContext))
-        throw Error(READ_PHONE_STATE_OR_CARRIER_PERMISSION_REQUIRED)
-      val activeSubscriptions = subscriptionManager?.activeSubscriptionInfoList
-      if (activeSubscriptions != null) {
-        for (subscriptionInfo in activeSubscriptions) {
-          if (subscriptionInfo.subscriptionId == subscriberId.toInt()) return convertSubscriptionInfoToWritableMap(subscriptionInfo, reactApplicationContext)
-        }
-      }
-      return Arguments.createMap()
-    } catch (e:Error) {
-      throw e
-    }
-  }
-
-  /**
    * Retrieves the no of sim slot index in device.
    *
    * For more details refer to the official documentation:

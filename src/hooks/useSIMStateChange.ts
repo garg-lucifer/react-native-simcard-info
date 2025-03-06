@@ -25,7 +25,7 @@ const isEqualObjectArray = (
 
 export const useSIMStateChange = () => {
   const [simState, setSimState] = React.useState<Array<Object>>([]);
-  const simStateRef = React.useRef<Array<Object>>([]); // Track the state reference
+  const simStateRef = React.useRef<Array<Object>>([]);
 
   React.useEffect(() => {
     NativeSimcardInfo.addOnSimCardStateChangeListener();

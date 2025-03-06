@@ -1,6 +1,6 @@
 {
   "name": "react-native-simcard-info",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React native library to get sim card info in android",
   "source": "./src/index.ts",
   "main": "./lib/commonjs/index.js",

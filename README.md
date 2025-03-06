@@ -330,6 +330,7 @@ console.log('Is airplane mode on:', isAirplaneMode());
 ### `isESIM`
 
 **Description**: Checks if the SIM associated with the given subscription ID is an eSIM.
+
 **Usage**:
 
 ```javascript
