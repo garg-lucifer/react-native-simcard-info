@@ -1,13 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   useAirplaneMode,
   useSIMStateChange,
   getSIMIds,
-  getSIMId,
   getActiveDataSIMId,
-  getActiveSIMInfo,
   getActiveSIMCount,
-  getActiveSIMInfoForSimSlotIndex,
   getActiveSIMInfoList,
   getAllSIMInfoList,
   getCompleteActiveSIMInfoList,
@@ -19,70 +17,134 @@ import {
   getSignalStrength,
   getPhoneNumber,
   getAllPhoneNumbers,
-  getSIMIdForPhoneNumber,
   isActiveSIMId,
   isNetworkRoaming,
-  isAirplaneMode,
   isESIM,
   isMobileDataEnabled,
-  startAirplaneListener,
-  stopAirplaneListener,
-  startSIMChangeListener,
-  stopSIMChangeListener,
-  onAirplaneModeChange,
-  onSIMCardStateChange,
 } from 'react-native-simcard-info';
+
+const InfoCard = ({ title, content }: { title: string; content: string }) => (
+  <View style={styles.card}>
+    <Text style={styles.title}>{title}</Text>
+    <Text style={styles.content}>{content}</Text>
+  </View>
+);
 
 export default function App() {
   const { isAirplaneModeOn } = useAirplaneMode();
   const { simState } = useSIMStateChange();
-
-  console.log('AIRPLANE MODE LISTENER', isAirplaneModeOn);
-  console.log('SIM CHANGE LISTENER', simState);
-
-  console.log('SIM IDs:', getSIMIds());
-  console.log('SIM ID for slot 0:', getSIMId(0));
-  console.log('Active data SIM ID:', getActiveDataSIMId());
-  console.log('Active SIM info for SIM ID 1:', getActiveSIMInfo(1));
-  console.log('Active SIM count:', getActiveSIMCount());
-  console.log(
-    'Active SIM info for slot 0:',
-    getActiveSIMInfoForSimSlotIndex(0)
-  );
-  console.log('Active SIM info list:', getActiveSIMInfoList());
-  console.log('All SIM info list:', getAllSIMInfoList());
-  console.log('Complete active SIM info list:', getCompleteActiveSIMInfoList());
-  console.log('Default data SIM ID:', getDefaultDataSIMId());
-  console.log('Default SMS SIM ID:', getDefaultSMSSIMId());
-  console.log('Default SIM ID:', getDefaultSIMId());
-  console.log('Slot index for SIM ID 1:', getSlotIndex(1));
-  console.log('Number of SIM slots available:', getNoOfSIMSlotAvailable());
-  console.log('Signal strength for SIM ID 1:', getSignalStrength(1));
-  console.log('Phone number for SIM ID 1:', getPhoneNumber(1));
-  console.log('All phone numbers:', getAllPhoneNumbers());
-  console.log(
-    'SIM ID for phone number 1234567890:',
-    getSIMIdForPhoneNumber('1234567890')
-  );
-  console.log('Is SIM ID 1 active:', isActiveSIMId(1));
-  console.log('Is network roaming for SIM ID 1:', isNetworkRoaming(1));
-  console.log('Is airplane mode on:', isAirplaneMode());
-  console.log('Is SIM ID 1 an eSIM:', isESIM(1));
-  console.log('Is mobile data enabled for SIM ID 1:', isMobileDataEnabled(1));
+  const [dataSimId, setDataSimId] = useState(0);
 
   useEffect(() => {
-    startSIMChangeListener();
-    onSIMCardStateChange((simStateCustom) => {
-      console.log('Custom Implementation SIM State', simStateCustom);
-    });
-    return () => stopSIMChangeListener();
+    setDataSimId(getActiveDataSIMId());
   }, []);
 
-  useEffect(() => {
-    startAirplaneListener();
-    onAirplaneModeChange((status) => {
-      console.log('Custom Implementation Airplane Mode', status);
-    });
-    return () => stopAirplaneListener();
-  }, []);
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.header}>SIM Card Info</Text>
+      <InfoCard
+        title="Airplane Mode"
+        content={isAirplaneModeOn ? 'On' : 'Off'}
+      />
+      <InfoCard
+        title="Active Data SIM ID"
+        content={String(dataSimId) || 'N/A'}
+      />
+      <InfoCard
+        title="SIM Slots Available"
+        content={String(getNoOfSIMSlotAvailable())}
+      />
+      <InfoCard
+        title="Mobile Data Enabled"
+        content={isMobileDataEnabled(1) ? 'Yes' : 'No'}
+      />
+      <InfoCard title="SIM State" content={JSON.stringify(simState)} />
+      <InfoCard title="SIM IDs" content={JSON.stringify(getSIMIds())} />
+      <InfoCard
+        title="Default Data SIM ID"
+        content={String(getDefaultDataSIMId())}
+      />
+      <InfoCard
+        title="Default SMS SIM ID"
+        content={String(getDefaultSMSSIMId())}
+      />
+      <InfoCard title="Default SIM ID" content={String(getDefaultSIMId())} />
+      <InfoCard
+        title="All Phone Numbers"
+        content={JSON.stringify(getAllPhoneNumbers())}
+      />
+      <InfoCard
+        title="Complete Active SIM Info List"
+        content={JSON.stringify(getCompleteActiveSIMInfoList())}
+      />
+      <InfoCard
+        title="Active SIM Count"
+        content={String(getActiveSIMCount())}
+      />
+      <InfoCard
+        title="Active SIM Info List"
+        content={JSON.stringify(getActiveSIMInfoList())}
+      />
+      <InfoCard
+        title="All SIM Info List"
+        content={JSON.stringify(getAllSIMInfoList())}
+      />
+      <InfoCard
+        title="Signal Strength (SIM ID 1)"
+        content={String(getSignalStrength(1))}
+      />
+      <InfoCard title="Phone Number (SIM ID 1)" content={getPhoneNumber(1)} />
+      <InfoCard
+        title="Is Network Roaming (SIM ID 1)"
+        content={isNetworkRoaming(1) ? 'Yes' : 'No'}
+      />
+      {simState.length && (
+        <InfoCard
+          title="Is eSIM (SIM ID 1)"
+          content={isESIM(1) ? 'Yes' : 'No'}
+        />
+      )}
+      <InfoCard
+        title="Slot Index (SIM ID 1)"
+        content={String(getSlotIndex(1))}
+      />
+      <InfoCard
+        title="Is SIM ID 1 Active"
+        content={isActiveSIMId(1) ? 'Yes' : 'No'}
+      />
+    </ScrollView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  card: {
+    marginBottom: 15,
+    padding: 15,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 5,
+  },
+  content: {
+    fontSize: 16,
+    color: '#333',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});

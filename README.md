@@ -2,6 +2,19 @@
 
 This library provides an easy-to-integrate solution for managing SIM card information, detecting SIM state changes in real-time, and controlling Airplane mode, all while fully supporting the new React Native architecture.
 
+<p>
+  <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+  <a href="https://medium.com/@naman3garg/how-to-ensure-a-users-phone-number-is-linked-to-an-active-sim-on-their-device-51c958e40080"><img alt="Medium" src="https://skydoves.github.io/badges/Story-Medium.svg"/></a>
+</p>
+
+### Example Output
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="./promo/a.jpg" alt="Image 1" width="30%" />
+  <img src="./promo/b.jpg" alt="Image 2" width="30%" />
+  <img src="./promo/c.jpg" alt="Image 3" width="30%" />
+</div>
+
 ## Why choose this library?
 
 - **Comprehensive SIM Management**: Get detailed SIM card information such as SIM IDs, carrier names, signal strength, roaming status, and phone numbers, all at your fingertips.
