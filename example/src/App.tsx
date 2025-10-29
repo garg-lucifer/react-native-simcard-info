@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 import {
   useAirplaneMode,
   useSIMStateChange,
@@ -21,16 +29,25 @@ import {
   isNetworkRoaming,
   isESIM,
   isMobileDataEnabled,
+  isDeviceEsimCompatible,
 } from 'react-native-simcard-info';
 
-const InfoCard = ({ title, content }: { title: string; content: string }) => (
+const InfoCard = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: string;
+  style?: StyleProp<ViewStyle>;
+}) => (
   <View style={styles.card}>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.content}>{content}</Text>
   </View>
 );
 
-export default function App() {
+// Component to encapsulate Android-specific SIM info logic
+const AndroidSimInfo = () => {
   const { isAirplaneModeOn } = useAirplaneMode();
   const { simState } = useSIMStateChange();
   const [dataSimId, setDataSimId] = useState(0);
@@ -40,8 +57,7 @@ export default function App() {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>SIM Card Info</Text>
+    <>
       <InfoCard
         title="Airplane Mode"
         content={isAirplaneModeOn ? 'On' : 'Off'}
@@ -98,7 +114,7 @@ export default function App() {
         title="Is Network Roaming (SIM ID 1)"
         content={isNetworkRoaming(1) ? 'Yes' : 'No'}
       />
-      {simState.length && (
+      {simState.length > 0 && ( // Check length to avoid rendering if simState is empty
         <InfoCard
           title="Is eSIM (SIM ID 1)"
           content={isESIM(1) ? 'Yes' : 'No'}
@@ -112,6 +128,19 @@ export default function App() {
         title="Is SIM ID 1 Active"
         content={isActiveSIMId(1) ? 'Yes' : 'No'}
       />
+    </>
+  );
+};
+
+export default function App() {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.header}>SIM Card Info</Text>
+      <InfoCard
+        title="ESIM Compatible Device"
+        content={isDeviceEsimCompatible() ? 'Yes' : 'No'}
+      />
+      {Platform.OS !== 'ios' && <AndroidSimInfo />}
     </ScrollView>
   );
 }
@@ -120,6 +149,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 60,
     backgroundColor: '#f5f5f5',
   },
   header: {

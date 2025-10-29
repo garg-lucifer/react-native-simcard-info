@@ -100,6 +100,10 @@ export const isMobileDataEnabled = (simId: number = -1): boolean => {
   return NativeSimcardInfo.isMobileDataEnabled(simId);
 };
 
+export const isDeviceEsimCompatible = (): boolean => {
+  return NativeSimcardInfo.isDeviceEsimCompatible();
+};
+
 export const startAirplaneListener = (): void => {
   return NativeSimcardInfo.addOnAirplaneChangeListener();
 };

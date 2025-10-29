@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
+import android.telephony.euicc.EuiccManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import com.facebook.react.bridge.Arguments
@@ -15,6 +16,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.module.annotations.ReactModule
+
 
 @ReactModule(name = SimcardInfoModule.NAME)
 class SimcardInfoModule(reactContext: ReactApplicationContext) :
@@ -551,6 +553,18 @@ class SimcardInfoModule(reactContext: ReactApplicationContext) :
       val currentTelephonyManager = if (subscriberId > 0) telephonyManager!!.createForSubscriptionId(subscriberId.toInt()) else telephonyManager
       return currentTelephonyManager!!.isDataEnabled
     } catch (e:Error) {
+      throw e
+    }
+  }
+
+  override fun isDeviceEsimCompatible(): Boolean {
+    try {
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return false
+      val euiccManager =
+        reactApplicationContext.getSystemService(Context.EUICC_SERVICE) as EuiccManager?
+
+      return euiccManager != null && euiccManager.isEnabled
+    } catch (e: Error) {
       throw e
     }
   }

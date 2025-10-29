@@ -26,6 +26,7 @@ export {
   isAirplaneMode,
   isESIM,
   isMobileDataEnabled,
+  isDeviceEsimCompatible,
   // manage event listeners
   startAirplaneListener,
   stopAirplaneListener,

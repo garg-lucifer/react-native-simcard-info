@@ -27,6 +27,7 @@ export interface Spec extends TurboModule {
   isAirplaneMode(): boolean;
   isESIM(subscriberId: number): boolean;
   isMobileDataEnabled(subscriberId: number): boolean;
+  isDeviceEsimCompatible(): boolean;
 
   addOnAirplaneChangeListener(): void;
   addOnSimCardStateChangeListener(): void;
